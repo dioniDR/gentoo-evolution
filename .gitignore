@@ -1,0 +1,34 @@
+# Archivos temporales de edición
+*~
+*.swp
+*.bak
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Logs y archivos temporales
+log/
+*.log
+
+# Descargas grandes o backups
+*.tar
+*.tar.gz
+*.tar.xz
+*.iso
+*.img
+*.bin
+
+# Archivos de montaje accidental
+/mnt/*
+/run/media/*
+
+# Scripts compilados o binarios
+*.out
+*.o
+*.class
+*.pyc
+
+# Archivos de entorno
+.env
