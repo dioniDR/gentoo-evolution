@@ -10,7 +10,7 @@ LABEL_GENTOO="/run/media/$USER/GENTOO"
 
 echo "🔧 Desmontando posibles montajes automáticos..."
 for LABEL in "$LABEL_ARCH" "$LABEL_GENTOO"; do
-    if mountpoint -q "$LABEL"; then
+    if mountpoint -q "$LABEL" 2>/dev/null; then
         echo "🗑️ Desmontando $LABEL..."
         sudo umount -l "$LABEL"
     fi
@@ -31,38 +31,12 @@ sudo mount --make-rslave "$MOUNT_POINT/dev"
 sudo mount --bind /run "$MOUNT_POINT/run"
 
 echo "🚪 Entrando al entorno chroot Gentoo..."
-sudo chroot "$MOUNT_POINT" /bin/bash --login <<'EOT'
+sudo chroot "$MOUNT_POINT" /bin/bash -c '
 source /etc/profile
 export PS1="(chroot) gentoo # "
-
-# Detectar terminal automáticamente
-if [[ -n "$TERM" ]]; then
-    # Mapear terminales problemáticos a compatibles
-    case "$TERM" in
-        "xterm-kitty"|"kitty")
-            export TERM="xterm-256color"
-            ;;
-        "alacritty")
-            export TERM="xterm-256color"
-            ;;
-        "warp")
-            export TERM="xterm-256color"
-            ;;
-        *)
-            # Para otros terminales, usar el valor original si es conocido
-            if infocmp "$TERM" >/dev/null 2>&1; then
-                export TERM="$TERM"
-            else
-                export TERM="xterm-256color"
-            fi
-            ;;
-    esac
-else
-    export TERM="xterm-256color"
-fi
-
+export TERM=xterm-256color
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 echo "✅ Entorno configurado - Terminal: $TERM"
 exec bash
-EOT
+'

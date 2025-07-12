@@ -39,7 +39,7 @@ cd gentoo-evolution/scripts
 
 Montar Gentoo desde el pendrive:
 
-./mount-gentoo.sh
+./mount-gentoo-fixed.sh
 
 Aplicar configuraciones respaldadas:
 
